@@ -6,74 +6,135 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import type {Node} from 'react';
+import React, { useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
+  TextInput,
   Text,
-  useColorScheme,
   View,
+  Button,
+  FlatList,
+  SafeAreaView,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const App = () =>{
+    const [task, setTask] = useState('');
+    const [taskList, setTaskList] = useState([]);
+    const [idTask, setIdTask] = useState("")
+
+    const onChange = (text) =>{
+      setTask(text);
+    }
+
+    const addTask = () =>{
+      setTaskList([...taskList, { id: Math.random(), task}]);
+      setTask('');
+    }
+
+    const limpiar = () =>{
+      setTaskList([]);
+    }
+
+    const deleteTask = (id) =>{
+      setTaskList(taskList.filter(task=> task.id !== id));
+    } 
+
+    const cambiarColor = (id) =>{
+      setIdTask(id);
+    }
+
   return (
     <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+      <View style={styles.contenedorEncabezado}>
+
+      <Text style={styles.titulo}>Lista de Tareas</Text>
+
+      <View style={styles.conteinerText}>
+
+        <TextInput 
+        style={styles.textImput} 
+        placeholder='Nombre tarea' 
+        onChangeText={(text)=>onChange(text)}
+        value={task}
+        />
+
+        <Button 
+        title='send' 
+        color='green' 
+        onPress={()=>addTask()}
+        disabled={task.trim().length === 0}
+        />
+
+      </View>
+  
+      </View>
+      <SafeAreaView>
+
+      {
+      taskList.length > 0 ? 
+      <View>
+        <View style={styles.contenedorList}>
+         {
+         <FlatList
+         keyExtractor={(item)=> item.id.toString()}
+         refreshing={true}
+         data={taskList}
+         renderItem={({item})=>
+         <View key={`elemento ${item.id}`} style={styles.contenedorListaBoton}>
+           
+          <View style={ idTask === item.id ? styles.contenedorTaskGreen : styles.contenedorTask}>
+            <Text style={styles.text}>{item.task}</Text>
+          </View>
+          
+          {item.id === idTask ? null : <Button  color='green' title='✓' onPress={()=> cambiarColor(item.id)}/>}
+          <Button  color='tomato' title='x' onPress={()=> deleteTask(item.id)}/>
+        </View>
+         }
+         
+         />
+         
+        /*  taskList.map((task)=>(
+          <View style={styles.contenedorListaBoton}>
+            <View style={styles.contenedorTask}>
+              <Text style={styles.text}>{task}</Text>
+            </View>
+            <Button  color='tomato' title='x' onPress={()=> deleteTask}/>
+          </View>
+         )) */}
+        </View>
+
+        <Button color='tomato' title='Borrar lista' onPress={()=>limpiar()}/>
+      </View>
+      : <Text>No hay elementos en la lista</Text>
+      }
+
+      
+
+      </SafeAreaView>
+    
     </View>
   );
-};
+  }
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    
-        <View>
-          <Text>Hola Mundo</Text>
-          
-        </View>
-     
-
-  );
-};
 
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
+  },
+  titulo:{
+    color:'black',
+    fontSize:30,
+    margin: 5,
+    textAlign: 'center',
+  },
+  contenedorEncabezado:{
+    backgroundColor:'#E4E4E4',
+    width: '100%',
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
   },
   sectionTitle: {
     fontSize: 24,
@@ -87,6 +148,55 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  textImput:{
+    width: 200,
+  },
+  conteinerText:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  contenedorList:{
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contenedorTask:{
+    display:'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 250,
+    height: 'auto',
+    borderRadius: 5,
+    backgroundColor: '#E4E4E4',
+    margin: 10,
+  },
+  contenedorTaskGreen:{
+    display:'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 250,
+    height: 'auto',
+    borderRadius: 5,
+    backgroundColor: 'green',
+    margin: 10,
+  },
+  text:{
+    color: 'black',
+    fontSize: 20,
+    padding: 10,
+    textAlign: 'center',
+  },
+  contenedorListaBoton:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 export default App;
