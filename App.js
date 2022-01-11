@@ -21,14 +21,13 @@ import {
   const App = () =>{
     const [task, setTask] = useState('');
     const [taskList, setTaskList] = useState([]);
-    const [idTask, setIdTask] = useState("")
 
     const onChange = (text) =>{
       setTask(text);
     }
 
     const addTask = () =>{
-      setTaskList([...taskList, { id: Math.random(), task}]);
+      setTaskList([...taskList, { id: Math.random(),estadoTares: false , task}]);
       setTask('');
     }
 
@@ -40,8 +39,8 @@ import {
       setTaskList(taskList.filter(task=> task.id !== id));
     } 
 
-    const cambiarColor = (id) =>{
-      setIdTask(id);
+    const cambiarColor = (prop) =>{
+      prop.estadoTares = true;
     }
 
   return (
@@ -75,7 +74,7 @@ import {
       taskList.length > 0 ? 
       <View>
         <View style={styles.contenedorList}>
-         {
+         
          <FlatList
          keyExtractor={(item)=> item.id.toString()}
          refreshing={true}
@@ -83,25 +82,18 @@ import {
          renderItem={({item})=>
          <View key={`elemento ${item.id}`} style={styles.contenedorListaBoton}>
            
-          <View style={ idTask === item.id ? styles.contenedorTaskGreen : styles.contenedorTask}>
+          <View style={ item.estadoTares ? styles.contenedorTaskGreen : styles.contenedorTask}>
             <Text style={styles.text}>{item.task}</Text>
           </View>
           
-          {item.id === idTask ? null : <Button  color='green' title='✓' onPress={()=> cambiarColor(item.id)}/>}
+          {item.estadoTares ? null : <Button  color='green' title='✓' onPress={()=> cambiarColor(item)}/>}
           <Button  color='tomato' title='x' onPress={()=> deleteTask(item.id)}/>
         </View>
          }
          
          />
          
-        /*  taskList.map((task)=>(
-          <View style={styles.contenedorListaBoton}>
-            <View style={styles.contenedorTask}>
-              <Text style={styles.text}>{task}</Text>
-            </View>
-            <Button  color='tomato' title='x' onPress={()=> deleteTask}/>
-          </View>
-         )) */}
+        
         </View>
 
         <Button color='tomato' title='Borrar lista' onPress={()=>limpiar()}/>
