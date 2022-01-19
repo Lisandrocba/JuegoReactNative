@@ -30,5 +30,18 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         color: '#ffff',
         textAlign: 'center',
+    },
+    contenedorRespuesta:{
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+    },
+    tituloRespuesta:{
+        color:'#fff',
+        fontSize: 18,
+    },
+    numero:{
+        fontSize: 40,
+        color: '#ffff',
     }
 })

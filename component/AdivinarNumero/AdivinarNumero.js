@@ -11,6 +11,7 @@ const AdivinarNumero = () =>{
     const [numero, setNumero] = useState('');
     const [valorSeleccionado, setValorSeleccionado] = useState('');
     const [confirmar, setConfirmar] = useState(false);
+    const [empezarJuego, setEmpezarJuego] = useState(false);
 
     const guardarNumero =(num)=>{
         setNumero(num)
@@ -26,11 +27,22 @@ const AdivinarNumero = () =>{
 
     }
 
+    const comenzarJuego =()=>{
+        setEmpezarJuego(true);
+    }
+
     return (
         <View style={styles.contenedorAdivinaNumero}>
             <Header />
             <Text style={styles.tituloAdivinarNumero}>Comienza el juego</Text>
-            <CartNumero numero={numero} guardarNumero={guardarNumero}  confirmarNumero={confirmarNumero}/>
+            <CartNumero 
+                numero={numero} 
+                guardarNumero={guardarNumero} 
+                confirmar={confirmar}  
+                valorSeleccionado={valorSeleccionado}
+                confirmarNumero={confirmarNumero}
+                comenzarJuego={comenzarJuego}
+            />
         </View>
     )
 
