@@ -7,5 +7,6 @@ export const styles = StyleSheet.create({
         fontSize: 30,
         color: '#B0BEC5',
         backgroundColor:'#263238',
+        fontFamily: 'Source Sans Pro',
     }
 });
