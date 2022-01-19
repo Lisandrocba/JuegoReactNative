@@ -5,7 +5,8 @@ import {
     Text,
 } from 'react-native';
 import Header from './components/Header/Header';
-import CartNumero from './components/cartNumero/CartNumero'
+import CartNumero from './components/cartNumero/CartNumero';
+import PantallaJuego from './components/PantallaJuego/PantallaJuego';
 
 const AdivinarNumero = () =>{
     const [numero, setNumero] = useState('');
@@ -35,6 +36,13 @@ const AdivinarNumero = () =>{
         <View style={styles.contenedorAdivinaNumero}>
             <Header />
             <Text style={styles.tituloAdivinarNumero}>Comienza el juego</Text>
+            {
+            empezarJuego 
+            ? 
+            <PantallaJuego 
+                opciones = {valorSeleccionado}
+            /> 
+            :
             <CartNumero 
                 numero={numero} 
                 guardarNumero={guardarNumero} 
@@ -43,6 +51,8 @@ const AdivinarNumero = () =>{
                 confirmarNumero={confirmarNumero}
                 comenzarJuego={comenzarJuego}
             />
+            }
+           
         </View>
     )
 

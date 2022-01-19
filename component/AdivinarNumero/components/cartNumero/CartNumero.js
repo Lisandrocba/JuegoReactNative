@@ -14,7 +14,7 @@ const CartNumero = ({guardarNumero, numero, confirmarNumero, confirmar, comenzar
     ( <View style={styles.contenedorRespuesta}>
         <Text style={styles.tituloRespuesta}>El numero seleccionado es:</Text>
         <Text style={styles.numero}>{valorSeleccionado}</Text>
-        <Button title='Empezar Juego' color='#016A0C' onPress={comenzarJuego}/>
+        <Button title='Empezar Juego' color='#016A0C' onPress={()=>comenzarJuego()}/>
     </View> ) : null
 
     return (
